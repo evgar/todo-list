@@ -11,6 +11,7 @@ function addItem(event) {
 		alert('Add new item, please');
 	} else {
 		createItem (input.value);
+		input.value = "";
 	}
 }
 
