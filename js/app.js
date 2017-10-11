@@ -11,6 +11,7 @@ function addItem(event) {
 		alert('Add new item, please');
 	} else {
 		createItem (input.value);
+		input.value = '';
 	}
 }
 
@@ -32,16 +33,21 @@ function createItem(title) {
 
 	var deleteButton = document.createElement('button');
 	deleteButton.className = 'delete';
+	deleteButton.innerText = "Remove";
 
 	var editButton = document.createElement('button');
 	editButton.className = 'change';
+	editButton.innerText = "Create";
 
 	list.appendChild(li);
 	li.appendChild(checkbox);
 	li.appendChild(label);
+
 	li.appendChild(input);
 	li.appendChild(deleteButton);
 	li.appendChild(editButton);
+};
 
-	console.log(form);
+function bindEvents () {
+	
 };
