@@ -12,7 +12,6 @@ function addItem(event) {
 	} else {
 		createItem (input.value);
 		input.value = '';
-	}
 }
 
 function createItem(title) {
