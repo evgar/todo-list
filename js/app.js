@@ -5,13 +5,26 @@ const button = document.getElementById('add-button');
 
 form.addEventListener('submit', addItem);
 
+function bindEvents(listItem) {
+	var checkbox = listItem.querySelector('.checkbox'),
+		removeBtn = listItem.querySelector('.delete'),
+		changeBtn = listItem.querySelector('.change');
+	checkbox.addEventListener('change', changeState);
+
+	changeBtn.addEventListener('click', changeItem);
+
+	removeBtn.addEventListener('click', removeItem)
+
+};
+
 function addItem(event) {
 	event.preventDefault();
 	if (!input.value) {
 		alert('Add new item, please');
 	} else {
-		createItem (input.value);
+		list.appendChild(createItem(input.value));
 		input.value = '';
+	}
 }
 
 function createItem(title) {
@@ -29,6 +42,7 @@ function createItem(title) {
 	var input = document.createElement('input');
 	input.value = title;
 	input.type = 'text';
+	input.setAttribute('disabled', true);
 
 	var deleteButton = document.createElement('button');
 	deleteButton.className = 'delete';
@@ -36,17 +50,35 @@ function createItem(title) {
 
 	var editButton = document.createElement('button');
 	editButton.className = 'change';
-	editButton.innerText = "Create";
+	editButton.innerText = "Change";
 
-	list.appendChild(li);
 	li.appendChild(checkbox);
 	li.appendChild(label);
 
 	li.appendChild(input);
 	li.appendChild(deleteButton);
 	li.appendChild(editButton);
+	bindEvents(li);
+	return li;
 };
 
-function bindEvents () {
-	
-};
+function removeItem(event) {
+	event.target.parentNode.remove();
+}
+
+function changeState(event) {
+	console.dir(event.target);
+	console.log(event.target);
+	var checkbox = event.target;
+	// if (checkbox.checked) {
+	checkbox.parentNode.classList.toggle('discarded');
+	// } else {
+	// 	checkbox.parentNode.classList.remove('discarded');
+	// }
+}
+
+function changeItem(event) {
+	event.target.previousSibling.previousSibling.removeAttribute('disabled');
+}
+
+// bindEvents(list);

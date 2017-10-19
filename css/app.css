@@ -180,3 +180,13 @@ header h1 {
 #todo-form button {
     margin-left: 10px;
 }
+
+li.discarded > input[type="text"] {
+    text-decoration: line-through;
+    color: grey;
+}
+
+li > input[disabled="true"] {
+    background: transparent;
+    border: none;
+}
