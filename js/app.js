@@ -25,7 +25,7 @@ function addItem(event) {
 		list.appendChild(createItem(input.value));
 		input.value = '';
 	}
-}
+};
 
 function createItem(title) {
 	var li = document.createElement('li');
@@ -43,6 +43,7 @@ function createItem(title) {
 	input.value = title;
 	input.type = 'text';
 	input.setAttribute('disabled', true);
+	input.className = 'event-title';
 
 	var deleteButton = document.createElement('button');
 	deleteButton.className = 'delete';
@@ -64,21 +65,20 @@ function createItem(title) {
 
 function removeItem(event) {
 	event.target.parentNode.remove();
-}
+};
 
 function changeState(event) {
-	console.dir(event.target);
-	console.log(event.target);
 	var checkbox = event.target;
-	// if (checkbox.checked) {
 	checkbox.parentNode.classList.toggle('discarded');
-	// } else {
-	// 	checkbox.parentNode.classList.remove('discarded');
-	// }
-}
+};
 
 function changeItem(event) {
-	event.target.previousSibling.previousSibling.removeAttribute('disabled');
-}
-
-// bindEvents(list);
+	var eventTitle = document.querySelector('.event-title');
+	if(eventTitle.hasAttribute('disabled')) {
+		eventTitle.removeAttribute('disabled');
+		event.target.innerHTML = 'SAVE';
+	} else {
+		eventTitle.setAttribute('disabled','');
+		event.target.innerHTML = 'CHANGE';
+	}
+};
