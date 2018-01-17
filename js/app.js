@@ -5,16 +5,6 @@ const button = document.getElementById('add-button');
 
 form.addEventListener('submit', addItem);
 
-function bindEvents(listItem) {
-	var checkbox = eventsHandler ('.checkbox', 'click', changeState);
-	var removeBtn = eventsHandler ('.delete', 'click', removeItem);
-	var changeBtn = eventsHandler ('.delete', 'click', changeItem);
-
-	function eventsHandler(selector, eventType, doOnEvent) {
-		listItem.querySelector(selector).addEventListener(eventType, doOnEvent);
-	};
-};
-
 function addItem(event) {
 	event.preventDefault();
 	if (!input.value) {
@@ -25,8 +15,8 @@ function addItem(event) {
 	}
 };
 
-function createElement(element, properties, ...childrens) {
-	var element = document.createElement(element);
+function createElement(tag, properties, ...childrens) {
+	const element = document.createElement(tag);
 	Object.keys(properties).forEach(function (value) {
 		element[value] = properties[value];
 		console.log(element);
@@ -40,14 +30,16 @@ function createElement(element, properties, ...childrens) {
 };
 
 function createItem(title) {
-	var checkbox = createElement('input', {'type': 'checkbox', 'className': 'checkbox'});
-	var label = createElement('label', {'innerText': title, 'className': 'textfield'});
-	var input = createElement('input', {'value': title, 'type': 'text', 'disabled': true, 'className': 'event-title'});
-	var deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
-	var editButton = createElement('button', {'className': 'change', 'innerText': 'Change'});
-	var li = createElement('li', {'className': 'todo-item'}, checkbox, label, input, deleteButton, editButton);
+	const checkbox = createElement('input', {'type': 'checkbox', 'className': 'checkbox'});
+	const label = createElement('label', {'innerText': title, 'className': 'textfield'});
+	const input = createElement('input', {'value': title, 'type': 'text', 'disabled': true, 'className': 'event-title'});
+	const deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
+	const editButton = createElement('button', {'className': 'change', 'innerText': 'Change'});
+	const li = createElement('li', {'className': 'todo-item'}, checkbox, label, input, deleteButton, editButton);
 
-	bindEvents(li);
+	checkbox.addEventListener('click', changeState);
+	deleteButton.addEventListener('click', removeItem);
+	editButton.addEventListener('click', changeItem);
 
 	return li;
 };
@@ -62,7 +54,6 @@ function changeState(event) {
 };
 
 function changeItem(event) {
-
 	var eventTitle = event.target.parentNode.querySelector('.event-title');
 	if (eventTitle.hasAttribute('disabled')) {
 		eventTitle.removeAttribute('disabled');
