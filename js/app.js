@@ -6,15 +6,12 @@ const button = document.getElementById('add-button');
 form.addEventListener('submit', addItem);
 
 function bindEvents(listItem) {
-	var checkbox = listItem.querySelector('.checkbox'),
-		removeBtn = listItem.querySelector('.delete'),
-		changeBtn = listItem.querySelector('.change');
-	checkbox.addEventListener('change', changeState);
-
-	changeBtn.addEventListener('click', changeItem);
-
-	removeBtn.addEventListener('click', removeItem)
-
+	var checkbox = listItem.querySelector('.checkbox');
+	var	removeBtn = listItem.querySelector('.delete');
+	var	changeBtn = listItem.querySelector('.change');
+	// checkbox.addEventListener('change', changeState);
+	// changeBtn.addEventListener('click', changeItem);
+	// removeBtn.addEventListener('click', removeItem)
 };
 
 function addItem(event) {
@@ -27,39 +24,30 @@ function addItem(event) {
 	}
 };
 
+function createElement(element, properties, ...childrens) {
+	var element = document.createElement(element);
+	Object.keys(properties).forEach(function (value) {
+		element[value] = properties[value];
+		console.log(element);
+	});
+	if (childrens) {
+		for (child in childrens) {
+			element.appendChild(childrens[child]);
+		}
+	}
+	return element;
+};
+
 function createItem(title) {
-	var li = document.createElement('li');
-	li.className = 'todo-item';
+	var checkbox = createElement('input', {'type': 'checkbox', 'className': 'todo-item'});
+	var label = createElement('label', {'innerText': title, 'className': 'textfield-item'});
+	var input = createElement('input', {'value': title, 'type': 'text', 'setAttribute': 'disabled', 'className': 'event-title'});
+	var deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
+	var editButton = createElement('button', {'className': 'change', 'innerText': 'Change'});
+	var li = createElement('li', {'className': 'todo-item'}, checkbox, label, input, deleteButton, editButton);
 
-	var checkbox = document.createElement('input');
-	checkbox.type = 'checkbox';
-	checkbox.className = 'checkbox';
-
-	var label = document.createElement('label');
-	label.innerText = title;
-	label.className = 'textfield';
-
-	var input = document.createElement('input');
-	input.value = title;
-	input.type = 'text';
-	input.setAttribute('disabled', true);
-	input.className = 'event-title';
-
-	var deleteButton = document.createElement('button');
-	deleteButton.className = 'delete';
-	deleteButton.innerText = "Remove";
-
-	var editButton = document.createElement('button');
-	editButton.className = 'change';
-	editButton.innerText = "Change";
-
-	li.appendChild(checkbox);
-	li.appendChild(label);
-
-	li.appendChild(input);
-	li.appendChild(deleteButton);
-	li.appendChild(editButton);
 	bindEvents(li);
+
 	return li;
 };
 
@@ -73,12 +61,13 @@ function changeState(event) {
 };
 
 function changeItem(event) {
-	var eventTitle = document.querySelector('.event-title');
-	if(eventTitle.hasAttribute('disabled')) {
+
+	var eventTitle = event.target.parentNode.querySelector('.event-title');
+	if (eventTitle.hasAttribute('disabled')) {
 		eventTitle.removeAttribute('disabled');
 		event.target.innerHTML = 'SAVE';
 	} else {
-		eventTitle.setAttribute('disabled','');
+		eventTitle.setAttribute('disabled', '');
 		event.target.innerHTML = 'CHANGE';
 	}
 };
