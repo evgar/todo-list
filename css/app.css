@@ -186,7 +186,8 @@ li.discarded > input[type="text"] {
     color: grey;
 }
 
-li > input[disabled="true"] {
+input:disabled {
     background: transparent;
     border: none;
 }
+
