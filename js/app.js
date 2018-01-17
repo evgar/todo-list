@@ -10,8 +10,8 @@ function bindEvents(listItem) {
 	var	removeBtn = listItem.querySelector('.delete');
 	var	changeBtn = listItem.querySelector('.change');
 	checkbox.addEventListener('change', changeState);
-	// changeBtn.addEventListener('click', changeItem);
-	// removeBtn.addEventListener('click', removeItem)
+	changeBtn.addEventListener('click', changeItem);
+	removeBtn.addEventListener('click', removeItem)
 };
 
 function addItem(event) {
