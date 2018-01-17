@@ -40,8 +40,8 @@ function createElement(element, properties, ...childrens) {
 
 function createItem(title) {
 	var checkbox = createElement('input', {'type': 'checkbox', 'className': 'checkbox'});
-	var label = createElement('label', {'innerText': title, 'className': 'textfield-item'});
-	var input = createElement('input', {'value': title, 'type': 'text', 'setAttribute': 'disabled', 'className': 'event-title'});
+	var label = createElement('label', {'innerText': title, 'className': 'textfield'});
+	var input = createElement('input', {'value': title, 'type': 'text', 'disabled': true, 'className': 'event-title'});
 	var deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
 	var editButton = createElement('button', {'className': 'change', 'innerText': 'Change'});
 	var li = createElement('li', {'className': 'todo-item'}, checkbox, label, input, deleteButton, editButton);
