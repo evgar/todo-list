@@ -6,12 +6,13 @@ const button = document.getElementById('add-button');
 form.addEventListener('submit', addItem);
 
 function bindEvents(listItem) {
-	var checkbox = listItem.querySelector('.checkbox');
-	var	removeBtn = listItem.querySelector('.delete');
-	var	changeBtn = listItem.querySelector('.change');
-	checkbox.addEventListener('change', changeState);
-	changeBtn.addEventListener('click', changeItem);
-	removeBtn.addEventListener('click', removeItem)
+	var checkbox = eventsHandler ('.checkbox', 'click', changeState);
+	var removeBtn = eventsHandler ('.delete', 'click', removeItem);
+	var changeBtn = eventsHandler ('.delete', 'click', changeItem);
+
+	function eventsHandler(selector, eventType, doOnEvent) {
+		listItem.querySelector(selector).addEventListener(eventType, doOnEvent);
+	};
 };
 
 function addItem(event) {
