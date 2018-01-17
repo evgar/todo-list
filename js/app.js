@@ -9,7 +9,7 @@ function bindEvents(listItem) {
 	var checkbox = listItem.querySelector('.checkbox');
 	var	removeBtn = listItem.querySelector('.delete');
 	var	changeBtn = listItem.querySelector('.change');
-	// checkbox.addEventListener('change', changeState);
+	checkbox.addEventListener('change', changeState);
 	// changeBtn.addEventListener('click', changeItem);
 	// removeBtn.addEventListener('click', removeItem)
 };
@@ -39,7 +39,7 @@ function createElement(element, properties, ...childrens) {
 };
 
 function createItem(title) {
-	var checkbox = createElement('input', {'type': 'checkbox', 'className': 'todo-item'});
+	var checkbox = createElement('input', {'type': 'checkbox', 'className': 'checkbox'});
 	var label = createElement('label', {'innerText': title, 'className': 'textfield-item'});
 	var input = createElement('input', {'value': title, 'type': 'text', 'setAttribute': 'disabled', 'className': 'event-title'});
 	var deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
