@@ -30,16 +30,18 @@ function createElement(tag, properties, ...childrens) {
 };
 
 function createItem(title) {
-	const checkbox = createElement('input', {'type': 'checkbox', 'className': 'checkbox'});
-	const label = createElement('label', {'innerText': title, 'className': 'textfield'});
-	const input = createElement('input', {'value': title, 'type': 'text', 'disabled': true, 'className': 'event-title'});
-	const deleteButton = createElement('button', {'className': 'delete', 'innerText': 'Remove'});
-	const editButton = createElement('button', {'className': 'change', 'innerText': 'Change'});
-	const li = createElement('li', {'className': 'todo-item'}, checkbox, label, input, deleteButton, editButton);
+	const checkbox = createElement('input', {type: 'checkbox', className: 'checkbox'});
+	const label = createElement('label', {innerText: title, className: 'textfield'});
+	const input = createElement('input', {value: title, type: 'text', disabled: true, className: 'event-title'});
+	const deleteButton = createElement('button', {className: 'delete', innerText: 'Remove'});
+	const editButton = createElement('button', {className: 'change', innerText: 'Change'});
+	const li = createElement('li', {className: 'todo-item'}, checkbox, label, input, deleteButton, editButton);
 
 	checkbox.addEventListener('click', changeState);
 	deleteButton.addEventListener('click', removeItem);
 	editButton.addEventListener('click', changeItem);
+
+	addToLocalStorage(title);
 
 	return li;
 };
@@ -62,4 +64,9 @@ function changeItem(event) {
 		eventTitle.setAttribute('disabled', '');
 		event.target.innerHTML = 'CHANGE';
 	}
+};
+
+function addToLocalStorage (value) {
+	counter = localStorage.length;
+	localStorage.setItem(counter, value);
 };
