@@ -2,8 +2,14 @@ const list = document.getElementById("todo-list");
 const form = document.getElementById('todo-form');
 const input = document.getElementById('add-input');
 const button = document.getElementById('add-button');
-
+let liCounter = 0;
 form.addEventListener('submit', addItem);
+
+function createList() {
+	for (let i = 0; i < localStorage.length; i++) {
+		list.appendChild(createItem(localStorage.getItem(i)));
+	}
+};
 
 function addItem(event) {
 	event.preventDefault();
@@ -11,17 +17,24 @@ function addItem(event) {
 		alert('Add new item, please');
 	} else {
 		list.appendChild(createItem(input.value));
+		addToLocalStorage(input.value);
 		input.value = '';
 	}
 };
 
 function createElement(tag, properties, ...childrens) {
+
 	const element = document.createElement(tag);
 	Object.keys(properties).forEach(function (value) {
 		element[value] = properties[value];
-		console.log(element);
 	});
-	if (childrens) {
+
+	if (tag == 'li') {
+			element.setAttribute('data-index', liCounter);
+		liCounter++;
+	}
+
+	if(childrens) {
 		for (child in childrens) {
 			element.appendChild(childrens[child]);
 		}
@@ -41,13 +54,12 @@ function createItem(title) {
 	deleteButton.addEventListener('click', removeItem);
 	editButton.addEventListener('click', changeItem);
 
-	addToLocalStorage(title);
-
 	return li;
 };
 
 function removeItem(event) {
 	event.target.parentNode.remove();
+	// localStorage.removeItem();
 };
 
 function changeState(event) {
@@ -66,7 +78,9 @@ function changeItem(event) {
 	}
 };
 
-function addToLocalStorage (value) {
-	counter = localStorage.length;
+function addToLocalStorage(value) {
+	const counter = localStorage.length;
 	localStorage.setItem(counter, value);
 };
+
+window.onload = createList();
