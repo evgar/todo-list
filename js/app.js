@@ -64,7 +64,6 @@ function removeItem(event) {
 	toDos.splice(event.target.parentNode.dataset.index ,1);
 	addToLocalStorage(toDos);
 	list.innerHTML = '';
-	console.log(toDos);
 	createList();
 };
 
@@ -75,10 +74,15 @@ function changeState(event) {
 
 function changeItem(event) {
 	var eventTitle = event.target.parentNode.querySelector('.event-title');
+
 	if (eventTitle.hasAttribute('disabled')) {
 		eventTitle.removeAttribute('disabled');
 		event.target.innerHTML = 'SAVE';
 	} else {
+		toDos[event.target.parentNode.dataset.index].name = eventTitle.value;
+		addToLocalStorage(toDos);
+		list.innerHTML = '';
+		createList();
 		eventTitle.setAttribute('disabled', '');
 		event.target.innerHTML = 'CHANGE';
 	}
