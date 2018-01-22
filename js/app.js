@@ -8,11 +8,13 @@ let toDos = [];
 form.addEventListener('submit', addItem);
 
 function createList() {
-	for (value in localStorage) {
-		if (localStorage.hasOwnProperty(value)) {
-			list.appendChild(createItem(localStorage.getItem(value)));
-		}
-	}
+	toDos = [];
+	var parsedList = JSON.parse(localStorage.myToDos);
+	parsedList.forEach(function (item) {
+		list.appendChild(createItem(item)).setAttribute('data-index', item.serialNumber);
+		addToList(item.name);
+	});
+
 };
 
 function addItem(event) {
@@ -20,9 +22,8 @@ function addItem(event) {
 	if (!input.value) {
 		alert('Add new item, please');
 	} else {
-		list.appendChild(createItem(input.value));
-		addToLocalStorage(input.value);
 		addToList(input.value);
+		list.appendChild(createItem(toDos[toDos.length - 1]));
 		input.value = '';
 	}
 };
@@ -39,16 +40,18 @@ function createElement(tag, properties, ...childrens) {
 			element.appendChild(childrens[child]);
 		}
 	}
+
 	return element;
 };
 
-function createItem(title) {
+function createItem(item) {
 	const checkbox = createElement('input', {type: 'checkbox', className: 'checkbox'});
-	const label = createElement('label', {innerText: title, className: 'textfield'});
-	const input = createElement('input', {value: title, type: 'text', disabled: true, className: 'event-title'});
+	const label = createElement('label', {innerText: item.name, className: 'textfield'});
+	const input = createElement('input', {value: item.name, type: 'text', disabled: true, className: 'event-title'});
 	const deleteButton = createElement('button', {className: 'delete', innerText: 'Remove'});
 	const editButton = createElement('button', {className: 'change', innerText: 'Change'});
 	const li = createElement('li', {className: 'todo-item'}, checkbox, label, input, deleteButton, editButton);
+	li.setAttribute('data-index', item.serialNumber);
 
 	checkbox.addEventListener('click', changeState);
 	deleteButton.addEventListener('click', removeItem);
@@ -58,8 +61,11 @@ function createItem(title) {
 };
 
 function removeItem(event) {
-	event.target.parentNode.remove();
-	localStorage.removeItem(event.target.previousSibling.previousSibling.innerText);
+	toDos.splice(event.target.parentNode.dataset.index ,1);
+	addToLocalStorage(toDos);
+	list.innerHTML = '';
+	console.log(toDos);
+	createList();
 };
 
 function changeState(event) {
@@ -81,7 +87,7 @@ function changeItem(event) {
 function addToList(value) {
 	var item = {
 		name: value,
-		serialNumber: toDos.length + 1,
+		serialNumber: toDos.length,
 		done: false
 
 	}
@@ -90,9 +96,7 @@ function addToList(value) {
 };
 
 function addToLocalStorage(value) {
-	// localStorage.setItem(value, value);
 	localStorage.setItem('myToDos', JSON.stringify(value));
-	console.log(localStorage);
 };
 
 window.onload = createList();
