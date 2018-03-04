@@ -8,13 +8,13 @@ let toDos = [];
 form.addEventListener('submit', addItem);
 
 function createList() {
-	toDos = [];
+	// toDos = [];
 	var parsedList = JSON.parse(localStorage.myToDos);
 	parsedList.forEach(function (item) {
 		list.appendChild(createItem(item)).setAttribute('data-index', item.serialNumber);
-		addToList(item.name);
+		// addNewItemToList(item.name);
+		toDos.push(item);
 	});
-
 };
 
 function addItem(event) {
@@ -22,7 +22,7 @@ function addItem(event) {
 	if (!input.value) {
 		alert('Add new item, please');
 	} else {
-		addToList(input.value);
+		addNewItemToList(input.value);
 		list.appendChild(createItem(toDos[toDos.length - 1]));
 		input.value = '';
 	}
@@ -45,7 +45,8 @@ function createElement(tag, properties, ...childrens) {
 };
 
 function createItem(item) {
-	const checkbox = createElement('input', {type: 'checkbox', className: 'checkbox'});
+	console.log(item);
+	const checkbox = createElement('input', {type: 'checkbox', className: 'checkbox', checked: item.done});
 	const label = createElement('label', {innerText: item.name, className: 'textfield'});
 	const input = createElement('input', {value: item.name, type: 'text', disabled: true, className: 'event-title'});
 	const deleteButton = createElement('button', {className: 'delete', innerText: 'Remove'});
@@ -57,6 +58,9 @@ function createItem(item) {
 	deleteButton.addEventListener('click', removeItem);
 	editButton.addEventListener('click', changeItem);
 
+	if (item.done) {
+		li.classList.add('discarded');
+	}
 	return li;
 };
 
@@ -69,7 +73,14 @@ function removeItem(event) {
 
 function changeState(event) {
 	var checkbox = event.target;
-	checkbox.parentNode.classList.toggle('discarded');
+	if(toDos[checkbox.parentNode.dataset.index].done) {
+		toDos[checkbox.parentNode.dataset.index].done = false;
+		checkbox.parentNode.classList.remove('discarded');
+	} else {
+		toDos[checkbox.parentNode.dataset.index].done = true;
+		checkbox.parentNode.classList.add('discarded');
+	}
+	addToLocalStorage(toDos);
 };
 
 function changeItem(event) {
@@ -88,12 +99,11 @@ function changeItem(event) {
 	}
 };
 
-function addToList(value) {
+function addNewItemToList(value) {
 	var item = {
 		name: value,
 		serialNumber: toDos.length,
 		done: false
-
 	}
 	toDos.push(item);
 	addToLocalStorage(toDos);
