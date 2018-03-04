@@ -76,6 +76,7 @@ input {
     border-radius: 2px;
     border: 1px solid lightgray;
     outline: none;
+    cursor: pointer;
 }
 
 main {
